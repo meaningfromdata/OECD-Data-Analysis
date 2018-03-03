@@ -37,20 +37,6 @@ gdpDF.rename(columns = {'Value': 'gdpPct'}, inplace=True)
 
 
 
-"""
-
-# read CSV file containing OECD GDP annual growth rate data
-harmUnEmpData=pd.read_csv('C:\\Users\\David\\Documents\\Data Science Related\\Datasets\\OECD_Stats\\OECD_harmonizedUnemploymentRate_pctOfLabourForce_1955_2016.csv')
-
-# pare down gdpGrowthRate to only contain three columns:  country, time (year) and value
-harmUnEmpDataDF=harmUnEmpData[["LOCATION", "TIME", "Value"]]
-
-# rename 'Value' to be 'gdpPct' to be more descriptive and unique after merging
-harmUnEmpDataDF.rename(columns = {'Value': 'unEmpPct'}, inplace=True)
-
-"""
-
-
 
 
 
@@ -119,7 +105,7 @@ gdpDF_yearsToCover = pd.DataFrame(index=yearsToCover)
 
 
 
-# separate data frame by country and check that the range of years of interest
+# separate data frame by country and then check that the range of years of interest
 # is contained in this country's data frame
 for country in sorted(list(set(gdpDF_oecdOnly['LOCATION']))):
     countryTemp_df = gdpDF_oecdOnly.loc[gdpDF_oecdOnly['LOCATION']==country].dropna()
@@ -135,10 +121,11 @@ for country in sorted(list(set(gdpDF_oecdOnly['LOCATION']))):
 sns.heatmap(gdpDF_yearsToCover.corr(), annot=True, fmt=".2f")
 
 
-# IS THIS CLUSTERING THE COLUMNS OR THE ROWS???
+
+
 # hierarchical clustering of correlation matrix
 Z = linkage(gdpDF_yearsToCover.corr(), 'single')
-plt.title('Hierarchical Clustering Dendrogram')
+plt.title('Dendrogram of GDP Growth Rate (1975-2015)')
 plt.xlabel('Country')
 plt.ylabel('distance')
 dendrogram(
@@ -152,7 +139,4 @@ plt.show()
 
 
 
-
-    
-# sns.factorplot(x="index", y="vals", hue='cols', data=gdpDF_yearsToCover_forPlotting)
 
