@@ -288,6 +288,8 @@ sns.heatmap(corr,
 
 # NEEDS SOME OUTLIER ANALYSIS FOR SOME OF THESE FEATURES 
 
+# DO I NEED TO USE BONFERRONI CORRECTION WHEN DOING THESE?
+#  AM I DOING MULTIPLE COMPARISONS EVEN WHEN FITTING OLS?  
 
 
 # first just doing ordinary least squares for gdpPct vs all columns individually
@@ -303,3 +305,12 @@ for columnNum in range(3, len(gdpDF_oecdOnly.columns)):
     # four newlines to space out print-out summary 
     print('\n' * 4)
    
+    
+# MAYBE EXTRACT ALL SIGNIFICANT PREDICTORS, THEIR 95% CI AND THEIR R-SQUARED
+    
+    
+    
+# THEN DO A "KITCHEN SINK" MULTIPLE REGRESSION
+    
+    
+    
