@@ -5,12 +5,6 @@ Created on Thu Mar  1 18:06:04 2018
 @author: David
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  1 12:00:33 2018
-
-@author: David
-"""
 
 
 # Importing the libraries
@@ -22,8 +16,12 @@ import seaborn as sns
 import statsmodels.api as sm
 
 from scipy.cluster.hierarchy import dendrogram, linkage
+from scipy.cluster.hierarchy import fcluster
+from scipy.cluster.hierarchy import cophenet
+from scipy.spatial.distance import dist
 
-
+from sklearn.cluster import AgglomerativeClustering
+import sklearn.metrics as metrics
 
 # import datasets
 
@@ -139,27 +137,17 @@ sns.heatmap(gdpDF_yearsToCover.corr(), annot=True, fmt=".2f")
 
 # IS THIS CLUSTERING THE COLUMNS OR THE ROWS???
 # hierarchical clustering of correlation matrix
-Z = linkage(gdpDF_yearsToCover, 'single', 'correlation')
+Z = linkage(gdpDF_yearsToCover.corr(), 'single')
 plt.title('Hierarchical Clustering Dendrogram')
-plt.xlabel('sample index')
+plt.xlabel('Country')
 plt.ylabel('distance')
 dendrogram(
     Z,
     leaf_rotation=90.,  # rotates the x axis labels
     leaf_font_size=8.,  # font size for the x axis labels
-    #labels=gdpDF_yearsToCover.columns
+    labels=list(gdpDF_yearsToCover.columns)
 )
 plt.show()
-
-
-
-
-# also possible to visualize clustering in seaborn
-# sns.clustermap(gdpDF_yearsToCover, metric="correlation")
-
-
-    
-# gdpDF_yearsToCover_forPlotting = gdpDF_yearsToCover.melt(gdpDF_yearsToCover.index, var_name='cols', value_name='vals')        
 
 
 
