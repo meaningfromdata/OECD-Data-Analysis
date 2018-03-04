@@ -89,13 +89,6 @@ gdpDF_oecdOnly = gdpDF[gdpDF['LOCATION'].isin(oecd_names_1D)]
 
 
 
-
-
-
-
-
-
-
 # years of interest for correlating gdp growth rate (gdpPct)
 yearsToCover = list(np.arange(1975,2016,1))
 
@@ -124,6 +117,45 @@ plt.show()
 
 
 
+# copy gdpDF_yearsToCover into new data frame that columns with stats will be appended to
+gdpDF_yearsToCoverWithStats = gdpDF_yearsToCover.copy()
+
+# calculate mean and standard deviation for each row (each timepoint)
+gdpDF_yearsToCoverWithStats['mean']= gdpDF_yearsToCover.mean(axis=1)
+gdpDF_yearsToCoverWithStats['sd']= gdpDF_yearsToCover.std(axis=1)
+gdpDF_yearsToCoverWithStats['mean+sd'] = gdpDF_yearsToCoverWithStats['mean'] + gdpDF_yearsToCoverWithStats['sd']
+gdpDF_yearsToCoverWithStats['mean-sd'] = gdpDF_yearsToCoverWithStats['mean'] - gdpDF_yearsToCoverWithStats['sd']
+
+
+# plot mean +/- sd of GDP Percent Growth Rate (year-over-year) timeseries for all countries 
+# plot2 = gdpDF_yearsToCoverWithStats.plot(x=gdpDF_yearsToCoverWithStats.index, y=['mean', 'mean+sd', 'mean-sd'], title='Mean +/- SD of GDP Growth Rate for OECD Members from 1975-2015',  style=['-','--','--'], color=['k', 'k', 'k'], linewidth=1.5)
+
+# plot2.set_xlabel("Year")
+# plot2.set_ylabel("GDP Percent Growth Rate")
+# plt.show()
+
+
+
+# plot sd of GDP Percent Growth Rate (year-over-year) timeseries for all countries 
+# plot3 = gdpDF_yearsToCoverWithStats.plot(x=gdpDF_yearsToCoverWithStats.index, y='sd', title='Standard Deviation of GDP Growth Rate for OECD Members from 1975-2015')
+
+# plot3.set_xlabel("Year")
+# plot3.set_ylabel("GDP Percent Growth Rate")
+# plt.show()
+
+
+
+
+
+# overlaying plots of GDP Percent Growth Rate (year-over-year) timeseries for all countries and mean +/- standard deviation
+ax = gdpDF_yearsToCover.plot(x=gdpDF_yearsToCover.index, y=gdpDF_yearsToCover.columns, title='GDP Growth Rate for OECD Members from 1975-2015')
+_ = gdpDF_yearsToCoverWithStats.plot(x=gdpDF_yearsToCoverWithStats.index, y=['mean', 'mean+sd', 'mean-sd'], style=['-','--','--'], color=['k', 'k', 'k'], linewidth=2.0, ax=ax)
+
+ax.set_xlabel("Year")
+ax.set_ylabel("GDP Percent Growth Rate")
+plt.show()
+
+
 
 # generate heatmap of correlations between gdpPct of all OECD countries with 
 # at least 40 years of data
@@ -147,28 +179,3 @@ plt.show()
 
 
 
-# copy gdpDF_yearsToCover into new data frame that columns with stats will be appended to
-gdpDF_yearsToCoverWithStats = gdpDF_yearsToCover.copy()
-
-# calculate mean and standard deviation for each row (each timepoint)
-gdpDF_yearsToCoverWithStats['mean']= gdpDF_yearsToCover.mean(axis=1)
-gdpDF_yearsToCoverWithStats['sd']= gdpDF_yearsToCover.std(axis=1)
-gdpDF_yearsToCoverWithStats['mean+sd'] = gdpDF_yearsToCoverWithStats['mean'] + gdpDF_yearsToCoverWithStats['sd']
-gdpDF_yearsToCoverWithStats['mean-sd'] = gdpDF_yearsToCoverWithStats['mean'] - gdpDF_yearsToCoverWithStats['sd']
-
-
-# plot mean +/- sd of GDP Percent Growth Rate (year-over-year) timeseries for all countries 
-plot2 = gdpDF_yearsToCoverWithStats.plot(x=gdpDF_yearsToCoverWithStats.index, y=['mean', 'mean+sd', 'mean-sd'], title='Mean +/- SD of GDP Growth Rate for OECD Members from 1975-2015')
-
-plot2.set_xlabel("Year")
-plot2.set_ylabel("GDP Percent Growth Rate")
-plt.show()
-
-
-
-# plot sd of GDP Percent Growth Rate (year-over-year) timeseries for all countries 
-plot3 = gdpDF_yearsToCoverWithStats.plot(x=gdpDF_yearsToCoverWithStats.index, y='sd', title='Standard Deviation of GDP Growth Rate for OECD Members from 1975-2015')
-
-plot3.set_xlabel("Year")
-plot3.set_ylabel("GDP Percent Growth Rate")
-plt.show()
